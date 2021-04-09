@@ -1,0 +1,30 @@
+    ORG     $100
+LIST:       FCB     11,3,8,7,1,9,-3,4,5 
+LSTEND:     RMB     2
+NVAL:       RMB     2
+STRT:       LDY     #lstend
+    LEAU    -1,y
+    STU     lstend
+    LEAY    -list,y
+    STY     nval
+    LEAY    -1,y
+LOOP1:      LDX     #list
+LOOP2:      LDA     ,x+
+    CMPA    ,x 
+    BLS     next
+    LDB     ,x
+    STA     ,x
+    STB     -1,x
+NEXT:   CMPX    lstend 
+    BLO     loop2
+    LEAX    -1,x 
+    STX     lstend
+XEND:       LEAY    -1,y 
+    BNE     loop1
+RETN:       JMP     $D000
+    END
+
+
+ ;The following program sorts a list of n one-byte numbers, 
+ ;using a very simple version of a sorting algorithm
+ ;known as bubble sort
